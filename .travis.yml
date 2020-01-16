@@ -1,0 +1,27 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t maurice94/frontend-dev -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run maurice94/frontend-dev npm test -- --coverage
+
+after_success:
+    - docker build -t maurice94/react-prod  ./client
+    - docker build -t maurice94/nginx-prod ./nginx
+    - docker build -t maurice94/express-prod ./server
+    - docker build -t maurice94/worker-prod ./worker  
+    #log in to the docker cli
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER-ID" --password-stdin   
+
+    #pushing the images to dockerhub
+    - docker push maurice94/react-prod 
+    - docker push maurice94/nginx-prod 
+    - docker push maurice94/express-prod 
+    - docker push maurice94/worker-prod 
+
+
+
+
