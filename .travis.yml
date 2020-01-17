@@ -1,6 +1,5 @@
 sudo: required
 services:
-    
     - docker
 
 before_install:
@@ -15,13 +14,18 @@ after_success:
     - docker build -t maurice94/express-prod ./server
     - docker build -t maurice94/worker-prod ./worker  
     #log in to the docker cli
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER-ID" --password-stdin   
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin   
 
     #pushing the images to dockerhub
     - docker push maurice94/react-prod 
     - docker push maurice94/nginx-prod 
     - docker push maurice94/express-prod 
-    - docker push maurice94/worker-prod 
+    - docker push maurice94/worker-prod
+
+
+
+
+
 
 
 
